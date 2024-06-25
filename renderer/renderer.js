@@ -5,30 +5,34 @@ const loadWelcome = require("./components/welcome");
 const loadDownload = require("./components/download");
 const loadLaunch = require("./components/launch");
 
-const sectionLoaders = {
-  welcome: loadWelcome,
-  download: loadDownload,
-  launch: loadLaunch,
-};
-
 loadSidebar();
 
-loadSection("welcome");
+loadWelcome();
 
-Object.keys(sectionLoaders).forEach((section) => {
-  documentd
-    .getElementById(section)
-    .addEventListener("click", () => loadSection(section));
+setActiveMenuItem("welcome");
+
+document.getElementById("welcome").addEventListener("click", () => {
+  loadWelcome();
+  setActiveMenuItem("welcome");
 });
 
-function loadSection(section) {
-  sectionLoaders[section]();
-  setActiveMenuItem(section);
-}
+document.getElementById("download").addEventListener("click", () => {
+  loadDownload();
+  setActiveMenuItem("download");
+});
+
+document.getElementById("launch").addEventListener("click", () => {
+  loadLaunch();
+  setActiveMenuItem("launch");
+});
 
 function setActiveMenuItem(menuItemId) {
   const menuItems = document.querySelectorAll("#sidebar ul li");
   menuItems.forEach((item) => {
-    item.classList.toggle("active", item.id === menuItemId);
+    if (item.id === menuItemId) {
+      item.classList.add("active");
+    } else {
+      item.classList.remove("active");
+    }
   });
 }
